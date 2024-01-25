@@ -102,3 +102,36 @@ dist
 
 # TernJS port file
 .tern-port
+
+#Visual Studio
+.vs/
+.sln
+*.sln.docstates
+
+# Logs e Cache
+.log
+.cache/
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de configuração do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de ambiente
+.env
+.env.test
+
+# Diretórios de Saída de Build
+dist/
+build/
+
+# Arquivos temporários
+*.tmp
+*.bak
+
