@@ -20,6 +20,6 @@ namespace SchoolManagement.XUnit
             Assert.Equal(studentRA, student.RA);
             Assert.Equal(studentCPF, student.CPF);
 
-        }       
+        }
     }
 }

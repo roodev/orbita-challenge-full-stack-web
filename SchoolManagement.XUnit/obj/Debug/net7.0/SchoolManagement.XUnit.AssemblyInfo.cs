@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SchoolManagement.XUnit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec4f9a8858d0fdff3d6acce2efab6d64f7189b60")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2bfa9981177cb1a6cbe46734a075647da9a735b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("SchoolManagement.XUnit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SchoolManagement.XUnit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
