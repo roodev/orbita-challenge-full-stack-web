@@ -1,4 +1,7 @@
 <template>
+  <div class="content">
+    
+  </div>
   <form @submit.prevent="submit">
     <v-text-field
       v-model="name.value.value"
@@ -69,4 +72,21 @@
     resetForm() 
     router.push('../StudentsList')
   }
+
+  const loadStudentData = () => {
+  // Antes de entrar na rota, carregue os dados do aluno se disponíveis
+  const studentData = router.currentRoute.value.params.studentData
+
+  // Preencha os campos com os dados do aluno para edição
+  if (studentData) {
+    name.value.value = studentData.name
+    ra.value.value = studentData.ra
+    email.value.value = studentData.email
+    cpf.value.value = studentData.cpf
+  }
+}
+
+// Use o hook beforeRouteEnter diretamente
+loadStudentData()
+
 </script>

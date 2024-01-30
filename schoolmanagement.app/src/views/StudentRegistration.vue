@@ -1,67 +1,102 @@
 <template>
-  <form @submit.prevent="submit">
-    <v-text-field
-      v-model="name.value.value"
-      :counter="10"
-      :error-messages="name.errorMessage.value"
-      label="Nome"
-    ></v-text-field>
-    <v-text-field
-      v-model="email.value.value"
-      :error-messages="email.errorMessage.value"
-      label="E-mail"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="ra.value.value"
-      :counter="7"
-      :error-messages="ra.errorMessage.value"
-      label="RA"
-    ></v-text-field>
-    <v-text-field
-      v-model="cpf.value.value"
-      :counter="11"
-      :error-messages="cpf.errorMessage.value"
-      label="CPF"
-    ></v-text-field>
-
-    <v-btn class="me-4" type="submit"> Salvar </v-btn>
-
-    <v-btn @click="handleReset"> Cancelar </v-btn>
-  </form>
+  <div class="content">
+    <form @submit.prevent="submit">
+      <v-text-field
+        v-model="Name.value.value"
+        :counter="10"
+        :error-messages="Name.errorMessage.value"
+        label="Nome"
+      ></v-text-field>
+      <v-text-field
+        v-model="Email.value.value"
+        :error-messages="Email.errorMessage.value"
+        label="E-mail"
+      ></v-text-field>
+  
+      <v-text-field
+        v-model="RA.value.value"
+        :counter="7"
+        :error-messages="RA.errorMessage.value"
+        label="RA"
+      ></v-text-field>
+      <v-text-field
+        v-model="CPF.value.value"
+        :counter="11"
+        :error-messages="CPF.errorMessage.value"
+        label="CPF"
+      ></v-text-field>
+  
+      <v-btn class="me-4" type="submit"> Salvar </v-btn>
+  
+      <v-btn @click="handleReset"> Cancelar </v-btn>
+    </form>
+  </div>
 </template>
 
 <script setup>
-  // import { ref } from 'vue'
-  import { useField, useForm } from 'vee-validate'
+import router from '@/router';
+import { useField, useForm } from 'vee-validate'
 
-  const { handleSubmit, handleReset } = useForm({
-    validationSchema: {
-      name(value) {
-        if (value?.length >= 2) return true
-
-        return 'O Nome precisa conter ao menos 2 caracteres.'
-      },
-      cpf(value) {
-        if (value?.length > 10 && /[0-9-]+/.test(value)) return true
-
-        return 'Número do CPF deve conter 11 dígitos.'
-      },
-      email(value) {
-        if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
-
-        return 'Informe um e-mail válido'
-      },
+const { handleSubmit, handleReset } = useForm({
+  validationSchema: {
+    Name(value) {
+      if (value?.length >= 2) return true
+      return 'O Nome precisa conter ao menos 2 caracteres.'
     },
-  })
-  const name = useField('name')
-  const ra = useField('ra')
-  const email = useField('email')
-  const cpf = useField('cpf')
+    CPF(value) {
+      if (value?.length > 10 && /[0-9-]+/.test(value)) return true
+      return 'Número do CPF deve conter 11 dígitos.'
+    },
+    Email(value) {
+      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+      return 'Informe um e-mail válido'
+    },
+  },
+})
 
-  // const items = ref(['Item 1', 'Item 2', 'Item 3', 'Item 4'])
+const Name = useField('Name')
+const RA = useField('RA')
+const Email = useField('Email')
+const CPF = useField('CPF')
 
-  const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
+const submit = handleSubmit(values => {
+  alert(JSON.stringify(values, null, 2))
+  addStudent(JSON.stringify(values, null, 2));
+})
+
+function addStudent(student) {
+
+  const baseApiURL = 'https://localhost:44360';
+  const url = `${baseApiURL}/Student`;
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: student,
   })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data) {
+      alert("Aluno Cadastrado com Sucesso!");
+      router.push('/StudentsList');
+    }
+  })
+  .catch(error => {
+    console.error("Erro ao cadastrar aluno:", error);
+  });
+}
 </script>
+
+<style scoped>
+.content{
+  width: 90%;
+  min-width: 800px;
+}
+</style>

@@ -1,19 +1,10 @@
 <template>
   <div>
-    <v-row class="mb-2">
-      <v-col>
-        <img src="./grupoa-logo.png" alt="Logotipo" class="logo" />
-      </v-col>
-      <v-col>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="headline">Módulo Acadêmico</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-col>
-    </v-row>
-
     <v-app>
+        <v-app-bar app class="academic-header">
+            <v-img src="./image/grupoa-logo.png" class="grupo-logo" contain></v-img>
+            <v-app-bar-title>Consulta de Alunos</v-app-bar-title>
+        </v-app-bar>
       <v-navigation-drawer app>
         <v-list-item to="/StudentsList">
           <v-list-item-icon>
@@ -24,7 +15,6 @@
           </v-list-item-content>
         </v-list-item>
       </v-navigation-drawer>
-
       <v-main>
         <router-view></router-view>
       </v-main>
@@ -33,11 +23,15 @@
 </template>
 
 <style scoped>
-  .logo {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 100px;
-    height: auto;
-  }
+.academic-header{
+  background-color: #E4E4E4;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grupo-logo{
+  max-height:40px;
+}
+
+
 </style>
