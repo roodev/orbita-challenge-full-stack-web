@@ -5,6 +5,7 @@
         bool Add(T register);
         bool Delete(int id);
         bool Update(T register);
+        T GetStudentById(int id);
         IEnumerable<T> List();
     }
 }

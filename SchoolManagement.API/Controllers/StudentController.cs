@@ -22,6 +22,13 @@ namespace SchoolManagement.API.Controllers
             var studentService =  _service.List();
             return Ok(studentService);
         }
+        
+        [HttpGet("getstudentbyid/{id}")]
+        public IActionResult GetStudentById(int id) 
+        {
+            var studentService =  _service.GetStudentById(id);
+            return Ok(studentService);
+        }
 
         [HttpPost]
         public IActionResult AddStudent([FromBody] Student student) 
@@ -39,5 +46,6 @@ namespace SchoolManagement.API.Controllers
         {
             return Ok(_service.Update(student));
         }
+
     }
 }

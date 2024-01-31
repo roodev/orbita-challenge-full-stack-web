@@ -41,5 +41,10 @@ namespace SchoolManagement.API.Services
             return studentRepository.SaveChanges();
 
         }
+
+        public Student GetStudentById(int id) 
+        {
+            return studentRepository.GetStudentById(id);
+        }
     }
 }

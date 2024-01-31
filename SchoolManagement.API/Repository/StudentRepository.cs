@@ -48,5 +48,11 @@ namespace SchoolManagement.API.Repository
             student.Email = entity.Email;
             _context.Update(student);
         }
+
+        public Student GetStudentById(int Id)
+        {
+            IQueryable<Student> query = _context.Students;
+            return query.Where(s => s.Id == Id).FirstOrDefault();
+        }
     }
 }

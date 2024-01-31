@@ -8,6 +8,7 @@ namespace SchoolManagement.API.Repository
         bool SaveChanges();
         void DeleteStudent(int id);
         void UpdateStudent(Student student);
+        Student GetStudentById(int id);
 
         IEnumerable<Student> GetAllStudents();
     }

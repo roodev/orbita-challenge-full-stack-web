@@ -1,4 +1,5 @@
 <template>
+
   <div class="content">
     <v-container fluid>
       <v-row class="mb-2">
@@ -7,7 +8,7 @@
             class="search-student-bar"></v-text-field>
         </v-col>
         <v-col>
-          <v-btn @click="registerStudent" color="primary" class="register-student-button">Cadastrar Aluno</v-btn>
+          <v-btn @click="registerStudent" color="primary" class="register-student-button" title="Cadastrar Aluno">Cadastrar Aluno</v-btn>
         </v-col>
       </v-row>
 
@@ -25,10 +26,10 @@
                 <v-list-item-content>
                   <v-list-item-title v-if="col.key !== 'actions'">{{ student[col.key] }}</v-list-item-title>
                   <v-list-item-action v-else>
-                    <v-btn class="icon-buttons" @click="editStudent(student)" icon>
+                    <v-btn class="icon-buttons" @click="editStudent(student)" icon title="Editar Aluno">
                       <v-icon style="height: 8px;">mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn class="icon-buttons" @click="confirmDelete(student)" icon>
+                    <v-btn class="icon-buttons" @click="confirmDelete(student)" icon title="Excluir Aluno">
                       <v-icon style="height: 8px;">mdi-delete</v-icon>
                     </v-btn>
                   </v-list-item-action>
@@ -59,8 +60,11 @@
 
 <script>
 
+import { useToast } from 'vue-toastification';
 import { baseApiURL } from "@/global";
 import axios from "axios";
+
+const toast = useToast();
 
 export default {
   data() {
@@ -77,6 +81,7 @@ export default {
       ],
       confirmDialog: false,
       studentToDelete: null,
+      selectedStudent: null
     };
   },
   computed: {
@@ -87,14 +92,21 @@ export default {
     },
   },
   methods: {
+
+    showToast(message, type) {
+      const toast = useToast();
+      toast[type](message);
+    },
+
     registerStudent() {
       this.$router.push('/StudentRegistration');
     },
     editStudent(student) {
       // this.$router.push(`/EditStudent/${student.id}`);
+      this.selectedStudent = { ...student };
       console.log("Editar - ID:", student.id, "Dados:", student);
-      this.$router.push({ name: 'EditStudent', params: { id: student.id, studentData: student } });
-      
+      // this.$router.push({ name: 'EditStudent', params: { id: student.id, studentData: student } });
+      this.$router.push({ name: 'EditStudent', params: { id: student.id, studentData: { ...student } } });
     },
     confirmDelete(student) {
       this.studentToDelete = student;
@@ -105,22 +117,29 @@ export default {
     async deleteStudent() {
       if (this.studentToDelete) {
         const studentId = this.studentToDelete.id;
-        console.log("studentToDelete", studentId);
         try {
           const response = await axios.delete(`${baseApiURL}/Student/${studentId}`);
 
           if (response.status === 200) {
-            this.students = this.students.filter(aluno => aluno.id !== studentId);
-
-            this.studentToDelete = null;
-            this.confirmDialog = false;
+            this.removeStudentFromList(studentId);
           } else {
-            console.error('Erro ao excluir aluno:', response.statusText);
+            this.showErrorNotification(`Erro ao excluir aluno: ${response.statusText}`);
           }
         } catch (error) {
-          console.error('Erro ao excluir aluno:', error.message);
+          this.showErrorNotification(`Erro ao excluir aluno: ${error.message}`);
         }
       }
+    },
+
+    removeStudentFromList(studentId) {1
+      this.students = this.students.filter(aluno => aluno.id !== studentId);
+      this.studentToDelete = null;
+      this.confirmDialog = false;
+      toast.success('Aluno excluído com sucesso!');
+    },
+
+    showErrorNotification(errorMessage) {
+      toast.error(errorMessage);
     },
 
     cancelDelete() {
@@ -142,6 +161,8 @@ export default {
         this.students = res.data;
       })
     }
+  },
+  components: {
   },
 
   created() {
